@@ -2,7 +2,7 @@
 import { useEffect, useState } from "hono/jsx";
 import { render } from "hono/jsx/dom";
 
-type Speaker = { id: string; name: string };
+type Speaker = { id: string; name: string; provider?: string };
 type Book = { id: string; title: string; author?: string };
 
 function CastApp() {
@@ -64,7 +64,7 @@ function CastApp() {
           <span>speaker</span>
           <select value={speakerId} onChange={(event) => setSpeakerId((event.currentTarget as HTMLSelectElement).value)} disabled={busy || speakers.length === 0}>
             {speakers.map((speaker) => (
-              <option value={speaker.id}>{speaker.name}</option>
+              <option value={speaker.id}>{speaker.provider ? `${speaker.name} - ${speaker.provider}` : speaker.name}</option>
             ))}
           </select>
         </label>
