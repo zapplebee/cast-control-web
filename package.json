@@ -1,0 +1,16 @@
+{
+  "name": "cast-control-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:client": "bun build src/client.tsx --outdir public --target browser --minify",
+    "start": "bun run src/index.tsx"
+  },
+  "dependencies": {
+    "hono": "^4.13.3"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.0"
+  }
+}

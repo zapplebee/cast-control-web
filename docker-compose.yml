@@ -1,0 +1,29 @@
+services:
+  cast-control-web:
+    build: .
+    image: cast-control-web:latest
+    container_name: cast_control_web
+    restart: unless-stopped
+    env_file:
+      - /home/zac/github.com/zapplebee/cast-mcp/.env
+    environment:
+      CAST_MCP_URL: http://172.22.0.1:4130
+      STORYTIME_BOOK_ID: project-hail-mary
+      STORYTIME_DURATION_SECONDS: 600
+    networks:
+      - nyx_svc_dev
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=nyx_svc_dev
+      - traefik.http.routers.cast-control-web.rule=Host(`home.dev.prettybird.zapplebee.online`)
+      - traefik.http.routers.cast-control-web.entrypoints=websecure
+      - traefik.http.routers.cast-control-web.tls=true
+      - traefik.http.routers.cast-control-web.tls.certresolver=le
+      - traefik.http.routers.cast-control-web.middlewares=cast-control-local-only@docker
+      - traefik.http.middlewares.cast-control-local-only.ipallowlist.sourcerange=192.168.1.0/24,192.168.3.0/24
+      - traefik.http.services.cast-control-web.loadbalancer.server.port=3000
+
+networks:
+  nyx_svc_dev:
+    external: true
+    name: nyx_svc_dev
